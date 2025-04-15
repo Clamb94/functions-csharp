@@ -19,7 +19,7 @@ namespace Supabase.Functions
     /// <inheritdoc />
     public partial class Client : IFunctionsClient
     {
-        private HttpClient _httpClient = new HttpClient();
+        private HttpClient _httpClient;
         private readonly string _baseUrl;
 
         /// <summary>
@@ -33,9 +33,11 @@ namespace Supabase.Functions
         /// Initializes a functions client
         /// </summary>
         /// <param name="baseUrl"></param>
-        public Client(string baseUrl)
+        /// <param name="httpClient">Optinal httpClient to handle requests</param>
+        public Client(string baseUrl, HttpClient? httpClient = null)
         {
             _baseUrl = baseUrl;
+            _httpClient = httpClient ?? new HttpClient();
         }
 
         /// <summary>
@@ -127,10 +129,11 @@ namespace Supabase.Functions
                 requestMessage.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
             }
             
-            if (_httpClient.Timeout != options.HttpTimeout)
+            if (options.HttpTimeout != null && _httpClient.Timeout != options.HttpTimeout)
             {
-                _httpClient = new HttpClient();
-                _httpClient.Timeout = options.HttpTimeout;
+                throw new NotSupportedException(
+                    "The timeout set on the HttpClient is not supported. Please set the timeout on the options.HttpTimeout property.");
+                //_httpClient = new HttpClient(_httpClient);
             }
             
             var response = await _httpClient.SendAsync(requestMessage);

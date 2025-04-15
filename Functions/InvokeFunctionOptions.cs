@@ -29,7 +29,7 @@ namespace Supabase.Functions
             /// Timout value for HttpClient Requests, defaults to 100s.
             /// https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.timeout?view=net-8.0#remarks
             /// </summary>
-            public TimeSpan HttpTimeout { get; set; } = TimeSpan.FromSeconds(100);
+            public TimeSpan? HttpTimeout { get; set; }
         }
     }
 }
