@@ -39,7 +39,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<ProjectReference Include="..\..\core-csharp\Core\Core.csproj" />
+		<PackageReference Include="Supabase.Core" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
